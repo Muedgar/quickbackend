@@ -1,9 +1,7 @@
 import { IsArray, IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateReceiptDto {
-  @IsString()
-  @IsNotEmpty()
-  userId
+
 
   @IsString()
   @IsNotEmpty()
@@ -13,17 +11,11 @@ export class CreateReceiptDto {
   @IsNotEmpty()
   customer_email 
 
-  @IsString()
-  @IsNotEmpty()
-  billing_address
 
   @IsString()
   @IsNotEmpty()
   receipt_date
 
-  @IsString()
-  @IsNotEmpty()
-  receipt_no 
 
   @IsString()
   @IsNotEmpty()
@@ -33,9 +25,7 @@ export class CreateReceiptDto {
   @IsNotEmpty()
   payment_method  
   
-  @IsString()
-  @IsNotEmpty()
-  ref_no
+ 
 
   @IsInt()
   @IsNotEmpty()

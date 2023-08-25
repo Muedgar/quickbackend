@@ -9,9 +9,7 @@ export class PaymentService {
   constructor(private userService: UserService, private prismaService: PrismaService) {}
   
   async create(createPaymentDto: CreatePaymentDto) {
-    const user = await this.userService.findOne(createPaymentDto.userId)
-    if(!user) throw new ForbiddenException('User Not Found')
-
+    
     const invoice = await this.getOneByInvoiceNo(createPaymentDto.invoice_no)
     if(!invoice) throw new ForbiddenException('Invoice record not found.')
     
@@ -49,12 +47,10 @@ select: {
     return await this.prismaService.payment.findMany({
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
   invoice_no: true,
   payment_date: true,
-  reference_no: true,
   deposit_to: true,
   amount_received: true,
   memo: true
@@ -68,12 +64,10 @@ select: {
       },
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
   invoice_no: true,
   payment_date: true,
-  reference_no: true,
   deposit_to: true,
   amount_received: true,
   memo: true
@@ -87,7 +81,7 @@ select: {
       },
       select: {
         id: true,
-        userId: true,
+        // userId: true,
   customer_name: true,
   customer_email: true,
   billing_address: true,

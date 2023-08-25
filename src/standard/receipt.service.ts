@@ -9,12 +9,6 @@ export class ReceiptService {
   constructor(private userService: UserService, private prismaService: PrismaService) {}
   
   async create(createReceiptDto: CreateReceiptDto) {
-    const user = await this.userService.findOne(createReceiptDto.userId)
-    if(!user) throw new ForbiddenException('User Not Found')
-
-    const receipt = await this.getOneByReceiptNo(createReceiptDto.receipt_no)
-    if(receipt) throw new ForbiddenException('Receipt already exists.')
-    
     return await this.createReceipt(createReceiptDto);
   }
 
@@ -49,15 +43,11 @@ select: {
     return await this.prismaService.receipt.findMany({
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
-  billing_address: true,
   receipt_date: true,
-  receipt_no: true,
   deposit_to: true,
   payment_method: true,
-  ref_no: true,
   amount: true,
   products: true
     }})
@@ -70,40 +60,16 @@ select: {
       },
      select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
-  billing_address: true,
   receipt_date: true,
-  receipt_no: true,
   deposit_to: true,
   payment_method: true,
-  ref_no: true,
   amount: true,
   products: true
     }})
   }
 
-      private async getOneByReceiptNo(receipt_no: string) {
-    return await this.prismaService.receipt.findFirst({
-      where: {
-        receipt_no: receipt_no
-      },
-      select: {
-        id: true,
-        userId: true,
-  customer_name: true,
-  customer_email: true,
-  billing_address: true,
-  receipt_date: true,
-  receipt_no: true,
-  deposit_to: true,
-  payment_method: true,
-  ref_no: true,
-  amount: true,
-  products: true
-    }})
-  }
 
       private async deleteInvoice(id: string) {
     return await this.prismaService.receipt.delete({

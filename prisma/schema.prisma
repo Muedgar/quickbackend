@@ -11,24 +11,20 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  email       String    @unique
+  id          String   @id @default(uuid())
+  email       String   @unique
   first_name  String
   last_name   String
   password    String
   telephone   String
   role        String
   permissions String[]
-  Invoice     Invoice[]
-  Payment     Payment[]
-  Receipt     Receipt[]
-  Expense     Expense[]
 }
 
 model Invoice {
   id                 String   @id @default(uuid())
-  user_id            User     @relation(fields: [userId], references: [id])
-  userId             String
+  // user_id            User     @relation(fields: [userId], references: [id])
+  // userId             String
   customer_name      String
   customer_email     String
   billing_address    String
@@ -43,43 +39,32 @@ model Invoice {
 
 model Payment {
   id              String @id @default(uuid())
-  user_id         User   @relation(fields: [userId], references: [id])
-  userId          String
   customer_name   String
   customer_email  String
   invoice_no      String
   payment_date    String
-  reference_no    String
   deposit_to      String
   amount_received Int
   memo            String
 }
 
 model Receipt {
-  id              String   @id @default(uuid())
-  user_id         User     @relation(fields: [userId], references: [id])
-  userId          String
-  customer_name   String
-  customer_email  String
-  billing_address String
-  receipt_date    String
-  receipt_no      String   @unique
-  deposit_to      String
-  payment_method  String
-  ref_no          String
-  amount          Int
-  products        String[]
+  id             String   @id @default(uuid())
+  customer_name  String
+  customer_email String
+  receipt_date   String
+  deposit_to     String
+  payment_method String
+  amount         Int
+  products       String[]
 }
 
 model Expense {
   id              String   @id @default(uuid())
-  user_id         User     @relation(fields: [userId], references: [id])
-  userId          String
   payee           String
   payment_account String
   payment_date    String
   payment_method  String
-  ref_no          String
   amount          Int
   memo            String
   products        String[]

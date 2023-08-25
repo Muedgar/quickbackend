@@ -9,9 +9,6 @@ export class ExpenseService {
   constructor(private userService: UserService, private prismaService: PrismaService) {}
   
   async create(createExpenseDto: CreateExpenseDto) {
-    const user = await this.userService.findOne(createExpenseDto.userId)
-    if(!user) throw new ForbiddenException('User Not Found')
-
     return await this.createExpense(createExpenseDto);
   }
 
@@ -24,7 +21,7 @@ export class ExpenseService {
   }
 
   async update(id: string, updateExpenseDto: UpdateExpenseDto) {
-    return await this.updateReceipt(id, updateExpenseDto);
+    return await this.updateExpense(id, updateExpenseDto);
   }
 
   async remove(id: string) {
@@ -46,12 +43,10 @@ select: {
     return await this.prismaService.expense.findMany({
       select: {
         id: true,
-        userId: true,
   payee: true,
   payment_account: true,
   payment_date: true,
   payment_method: true,
-  ref_no: true,
   amount: true,
   memo: true,
   products: true
@@ -65,12 +60,10 @@ select: {
       },
      select: {
         id: true,
-        userId: true,
   payee: true,
   payment_account: true,
   payment_date: true,
   payment_method: true,
-  ref_no: true,
   amount: true,
   memo: true,
   products: true
@@ -87,7 +80,7 @@ select: {
     }})
   }
 
-  private async updateReceipt(id: string, updateExpenseDto: UpdateExpenseDto) {
+  private async updateExpense(id: string, updateExpenseDto: UpdateExpenseDto) {
     return await this.prismaService.expense.update({
       where: {
         id: id

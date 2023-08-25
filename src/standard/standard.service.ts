@@ -9,9 +9,9 @@ export class StandardService {
   constructor(private userService: UserService, private prismaService: PrismaService) {}
   
   async create(createInvoiceDto: CreateInvoiceDto) {
-    const user = await this.userService.findOne(createInvoiceDto.userId)
-    if(!user) throw new ForbiddenException('User Not Found')
-
+    // const user = await this.userService.findOne(createInvoiceDto.userId)
+    // if(!user) throw new ForbiddenException('User Not Found')
+    
     const invoice = await this.getOneByInvoiceNo(createInvoiceDto.invoice_no)
     if(invoice) throw new ForbiddenException('Invoice record already exists')
     
@@ -37,7 +37,6 @@ export class StandardService {
   private async createInvoice(createInvoiceDto: CreateInvoiceDto) {
     return await this.prismaService.invoice.create({
       data: {
-  userId: createInvoiceDto.userId,
   customer_name: createInvoiceDto.customer_name,
   customer_email: createInvoiceDto.customer_email,
   billing_address: createInvoiceDto.billing_address,
@@ -47,7 +46,7 @@ export class StandardService {
   invoice_no: createInvoiceDto.invoice_no,
   products: createInvoiceDto.products,
   message_on_invoice: createInvoiceDto.message_on_invoice,
-  amount: createInvoiceDto.amount
+  amount: Number(createInvoiceDto.amount)
 },
 select: {
   id: true
@@ -59,7 +58,6 @@ select: {
     return await this.prismaService.invoice.findMany({
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
   billing_address: true,
@@ -80,7 +78,6 @@ select: {
       },
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
   billing_address: true,
@@ -101,7 +98,6 @@ select: {
       },
       select: {
         id: true,
-        userId: true,
   customer_name: true,
   customer_email: true,
   billing_address: true,
