@@ -10,6 +10,7 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   imports: [AuthModule],
   controllers: [StandardController],
-  providers: [StandardService, UserService, PaymentService, ReceiptService, ExpenseService]
+  providers: [StandardService, UserService, PaymentService, ReceiptService, ExpenseService],
+  exports: [PaymentService, ExpenseService]
 })
 export class StandardModule {}
